@@ -1,0 +1,5 @@
+Host : ec2-18-204-142-254.compute-1.amazonaws.com
+Database : dd0ibbfpq96r39
+User : qfkvlglgixbnqp
+Port : 5432
+Password : 5ddacab9748c3174f125b342bef9a2363a6cce60ac79c286a872d1c5f1108744

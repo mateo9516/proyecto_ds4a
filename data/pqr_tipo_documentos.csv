@@ -1,0 +1,4 @@
+id,descripcion,user_id,created_at,updated_at,deleted_at
+1,Solicitud general,1,2021-09-24 10:14:49.000000,2021-09-24 10:16:15.000000,
+3,Derecho de peticion,1,2021-09-24 10:14:49.000000,,
+2,Accion de tutela,1,2021-09-24 10:14:49.000000,,
