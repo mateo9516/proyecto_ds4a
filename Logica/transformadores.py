@@ -28,6 +28,5 @@ def estado_respuesta(estado):
     if estado == 4 or estado == 5:
         return 'Resuelto'
     else:
-        return 'No Resuelto'
-        
+        return 'No Resuelto'       
     
