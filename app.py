@@ -14,3 +14,22 @@ def obtenerDf():
     respuesta = carga_descarga.descargaDatos()
     return jsonify(respuesta)
 
+@app.route("/api/consultaid/<id>/")
+
+def consultaid(id):
+    respuesta = carga_descarga.consulta(id)
+    return jsonify(respuesta)
+
+@app.route("/api/add/", methods= ["POST"])
+
+def cargaDatos():
+    
+    estructura= request.get_json()
+
+    respuesta = carga_descarga.cargaDatos(estructura)
+    if respuesta == 1:
+        return "Exito"
+    else:
+        return jsonify({"message": "Error on insert"}), 500
+
+
