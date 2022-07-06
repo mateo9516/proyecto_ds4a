@@ -2,17 +2,18 @@ from ast import Raise
 from configparser import ConfigParser
 import psycopg2
 import csv
+import Logica.transformadores as transformadores
+
 
 conexion = psycopg2.connect(
-    host='ec2-18-204-142-254.compute-1.amazonaws.com',
-    user='qfkvlglgixbnqp',
-    password="5ddacab9748c3174f125b342bef9a2363a6cce60ac79c286a872d1c5f1108744",
-    database="dd0ibbfpq96r39"
+    host= 'ec2-18-204-142-254.compute-1.amazonaws.com',
+    user= 'qfkvlglgixbnqp',
+    password= "5ddacab9748c3174f125b342bef9a2363a6cce60ac79c286a872d1c5f1108744",
+    database= "dd0ibbfpq96r39"
 )
 
 def cargaDatos(estructura):
     try:    
-        print("Hello")
         with conexion.cursor() as cursor:
             sql="""INSERT INTO pqr_radicacions (glb_estado_id, glb_dependencia_id, pqr_derechos_id, ase_tipo_poblacion_id, 
                             ase_tipo_regimen_id, pqr_tipo_solicitud_id, pqr_tipo_solicitud_especifica_id, glb_barrio_vereda_id, 
@@ -22,8 +23,6 @@ def cargaDatos(estructura):
                             latitud, longitud, estado_respuesta, estado_tiempo, glb_tipo_genero_id, glb_entidad_id, barrio, vereda, suelo, comuna, fecha_respuesta) 
                             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s,
                              %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
-
-            registro=[]
             for x in estructura:
                 if estructura[x]=='':
                     estructura[x]=None
@@ -34,16 +33,16 @@ def cargaDatos(estructura):
                              estructura.get("glb_tipo_identificacion_id"), estructura.get("identificacion"),estructura.get("primer_apellido"), 
                              estructura.get("segundo_apellido"), estructura.get("primer_nombre"), estructura.get("segundo_nombre"), estructura.get("direccion"),
                              estructura.get("telefono_fijo"), estructura.get("telefono_movil"), estructura.get("email"), estructura.get("ficha_sisben"), 
-                             estructura.get("clasificacion_sisben"),estructura.get("no_radicacion"), estructura.get("fecha_radicacion"), estructura.get("fecha_vencimiento "),
+                             estructura.get("clasificacion_sisben"),estructura.get("no_radicacion"), estructura.get("fecha_radicacion"), estructura.get("fecha_vencimiento"),
                              estructura.get("no_respuesta"), estructura.get("asunto"),estructura.get("otros_tipo_solicitud_esp"), estructura.get("amisalud_id"), 
                              estructura.get("nombre_completo"), estructura.get("fecha_nacimiento"), estructura.get("latitud"),estructura.get("longitud"), 
-                             estructura.get("estado_respuesta"), estructura.get("estado_tiempo"), estructura.get("glb_tipo_genero_id"), estructura.get("glb_entidad_id"), 
+                             transformadores.estado_respuesta(estructura.get("glb_estado_id")), transformadores.estado_tiempo(estructura.get("fecha_vencimiento"),estructura.get("fecha_respuesta")), estructura.get("glb_tipo_genero_id"), estructura.get("glb_entidad_id"), 
                              estructura.get("barrio"), estructura.get("vereda"), estructura.get("suelo"), estructura.get("comuna"), estructura.get("fecha_respuesta")))
             affected_rows= cursor.rowcount
             conexion.commit()
         return affected_rows            
     except Exception as ex:
-        raise Exception(ex)
+        raise print('mi loco hay un error', ex)
 
 def descargaDatos():
     pqrs = []
