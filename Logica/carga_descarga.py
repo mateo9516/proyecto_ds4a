@@ -42,7 +42,7 @@ def cargaDatos(estructura):
             conexion.commit()
         return affected_rows            
     except Exception as ex:
-        raise print('mi loco hay un error', ex)
+        raise Exception(ex)
 
 def descargaDatos():
     pqrs = []
