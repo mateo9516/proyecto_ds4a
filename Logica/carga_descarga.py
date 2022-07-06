@@ -21,8 +21,8 @@ def cargaDatos(estructura):
                   #  for key in row:
                    #     if(row[key] == ''):
                     #        row[key] = None                                                             
-                    #cur.execute(sql, """ aqui deben ir los campos del json o en su defecto los campos ** mirar lista""")
-                     # Aqui se debe poner el codigo para guardar el json que traemos desde el front en la bd   
+                    # cur.execute(sql, """ aqui deben ir los campos del json o en su defecto los campos ** mirar lista""")
+                    # Aqui se debe poner el codigo para guardar el json que traemos desde el front en la bd   
                 print("registros cargados")
             
     except psycopg2.Error as e:
@@ -31,7 +31,6 @@ def cargaDatos(estructura):
         conexion.close()
 
 def descargaDatos():
-    print("holi")
     pqrs = []
     cur = conexion.cursor()
     cur.execute('SELECT * FROM pqr_radicacions;')

@@ -8,9 +8,9 @@ from Logica import carga_descarga
 app = Flask(__name__)
 
 
-
 @app.route("/api/obtenerDf")
 
 def obtenerDf():
     respuesta = carga_descarga.descargaDatos()
     return jsonify(respuesta)
+
