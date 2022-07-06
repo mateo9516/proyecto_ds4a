@@ -46,7 +46,6 @@ def cargaDatos(estructura):
         raise Exception(ex)
 
 def descargaDatos():
-    print("holi")
     pqrs = []
     cur = conexion.cursor()
     cur.execute('SELECT * FROM pqr_radicacions;')
