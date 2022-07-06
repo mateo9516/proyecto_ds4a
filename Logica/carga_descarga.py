@@ -27,17 +27,19 @@ def cargaDatos(estructura):
                 if estructura[x]=='':
                     estructura[x]=None
 
-            cursor.execute(sql,(estructura.get("glb_estado_id"), estructura.get("glb_dependencia_id"), 
-                             estructura.get("pqr_tipo_derechos_id"), estructura.get("ase_tipo_poblacion_id"), estructura.get("ase_tipo_regimen_id"), 
-                             estructura.get("pqr_tipo_solicitud_id"),estructura.get("pqr_tipo_solicitud_especifica_id"), estructura.get("glb_barrio_vereda_id"),
-                             estructura.get("glb_tipo_identificacion_id"), estructura.get("identificacion"),estructura.get("primer_apellido"), 
-                             estructura.get("segundo_apellido"), estructura.get("primer_nombre"), estructura.get("segundo_nombre"), estructura.get("direccion"),
-                             estructura.get("telefono_fijo"), estructura.get("telefono_movil"), estructura.get("email"), estructura.get("ficha_sisben"), 
-                             estructura.get("clasificacion_sisben"),estructura.get("no_radicacion"), estructura.get("fecha_radicacion"), estructura.get("fecha_vencimiento"),
-                             estructura.get("no_respuesta"), estructura.get("asunto"),estructura.get("otros_tipo_solicitud_esp"), estructura.get("amisalud_id"), 
-                             estructura.get("nombre_completo"), estructura.get("fecha_nacimiento"), estructura.get("latitud"),estructura.get("longitud"), 
-                             transformadores.estado_respuesta(estructura.get("glb_estado_id")), transformadores.estado_tiempo(estructura.get("fecha_vencimiento"),estructura.get("fecha_respuesta")), estructura.get("glb_tipo_genero_id"), estructura.get("glb_entidad_id"), 
-                             estructura.get("barrio"), estructura.get("vereda"), estructura.get("suelo"), estructura.get("comuna"), estructura.get("fecha_respuesta")))
+
+            cursor.execute(sql,(estructura.get("glb_estado_id"), estructura.get("glb_dependencia_id"), estructura.get("pqr_tipo_derechos_id"), 
+                                estructura.get("ase_tipo_poblacion_id"), estructura.get("ase_tipo_regimen_id"), estructura.get("pqr_tipo_solicitud_id"),
+                                estructura.get("pqr_tipo_solicitud_especifica_id"), estructura.get("glb_barrio_vereda_id"),
+                                estructura.get("glb_tipo_identificacion_id"), estructura.get("identificacion"),estructura.get("primer_apellido"), 
+                                estructura.get("segundo_apellido"), estructura.get("primer_nombre"), estructura.get("segundo_nombre"), estructura.get("direccion"),
+                                estructura.get("telefono_fijo"), estructura.get("telefono_movil"), estructura.get("email"), estructura.get("ficha_sisben"), 
+                                estructura.get("clasificacion_sisben"),estructura.get("no_radicacion"), estructura.get("fecha_radicacion"), estructura.get("fecha_vencimiento"),
+                                estructura.get("no_respuesta"), estructura.get("asunto"),estructura.get("otros_tipo_solicitud_esp"), estructura.get("amisalud_id"), 
+                                estructura.get("nombre_completo"), estructura.get("fecha_nacimiento"), estructura.get("Latitud"),estructura.get("Longitud"), 
+                                transformadores.estado_respuesta(estructura.get("glb_estado_id")), transformadores.estado_tiempo(estructura.get("fecha_vencimiento"),
+                                estructura.get("fecha_respuesta")),estructura.get("glb_tipo_genero_id"), estructura.get("glb_entidad_id"), 
+                                estructura.get("Barrio"), estructura.get("Vereda"), estructura.get("Suelo"), estructura.get("Comuna"), estructura.get("fecha_respuesta")))
             affected_rows= cursor.rowcount
             conexion.commit()
         return affected_rows            
