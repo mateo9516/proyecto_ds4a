@@ -33,3 +33,18 @@ def cargaDatos():
         return jsonify({"message": "Error on insert"}), 500
 
 
+@app.route("/api/cargaMasiva", methods=["POST"])
+
+def cargaMasiva():
+    estructuras = request.get_json()
+    salida = 0
+
+    for estructura in estructuras:
+        print(estructuras[estructura])
+        carga_descarga.cargaDatos(estructuras[estructura])
+        salida += 1
+    
+    if salida == len(estructuras):
+        return "cargado con exito"
+    else:
+         return jsonify({"message": "Error en la carga"}), 500
