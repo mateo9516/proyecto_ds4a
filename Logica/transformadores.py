@@ -30,9 +30,6 @@ def estado_respuesta(estado):
     else:
         return 'No Resuelto'       
 
-#def caracterizacion_tipo(lista_atrr):
-    #if None in lista_atrr:
-
 
     
 
