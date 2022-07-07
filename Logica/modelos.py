@@ -42,7 +42,7 @@ def procesoEntidad(texto):
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", category=UserWarning)
         model = pickle.load(open('Modelos/model_entidad.pkl','rb'))
-    return model.predict(entrada)[0]
+    return int(model.predict(entrada)[0])
 
 def vectorizadorDerecho(texto):
     with warnings.catch_warnings():
@@ -58,7 +58,7 @@ def procesoDerecho(texto):
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", category=UserWarning)
         model = pickle.load(open('Modelos/model_derecho.pkl','rb'))
-    return model.predict(entrada)[0]
+    return int(model.predict(entrada)[0])
 
 def vectorizadorSoli(texto):
     with warnings.catch_warnings():
@@ -70,12 +70,13 @@ def vectorizadorSoli(texto):
     return model.transform(vector)
 
 def procesoSoli(texto):
-    entrada = vectorizadorDerecho(texto)
+    entrada = vectorizadorSoli(texto)
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", category=UserWarning)
-        model = pickle.load(open('Modelos/model_soli.pkl','rb'))
-    return model.predict(entrada)[0]
-"""
+        model = pickle.load(open('Modelos/model_soli_1.pkl','rb'))
+    return int(model.predict(entrada)[0])
+
+
 def vectorizadorSoliEsp(texto):
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", category=UserWarning)
@@ -86,25 +87,8 @@ def vectorizadorSoliEsp(texto):
     return model.transform(vector)
 
 def procesoSoliEsp(texto):
-    entrada = vectorizadorDerecho(texto)
+    entrada = vectorizadorSoliEsp(texto)
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", category=UserWarning)
-        model = pickle.load(open('Modelos/model_solici_especi.pkl','rb'))
-    return model.predict(entrada)[0]
-
-"""
-
-
-"""
-def modelo_entidad(asunto):
-    entrada = procesaTexto(asunto)
-
-    modelo = pickle.load(open('Modelos/model_entidad.pkl', 'rb'))
-
-    return modelo.predict(entrada)
-"""
-
-
-print("derecho", procesoDerecho("REFERENCIA.  ACCION DE TUTELA RADICACION: 73001-40-09-012-2021-00222-00.  NOTIFICACION FALLO DE TUTELA ACCIONANTE: REINERIO GONZALEZ FERREIRA ACCIONADO: E.P.S-S MEDIMAS Y OTROS."))
-print("entidad", procesoEntidad("REFERENCIA.  ACCION DE TUTELA RADICACION: 73001-40-09-012-2021-00222-00.  NOTIFICACION FALLO DE TUTELA ACCIONANTE: REINERIO GONZALEZ FERREIRA ACCIONADO: E.P.S-S MEDIMAS Y OTROS."))
-print("soli normalita", procesoSoli("REFERENCIA.  ACCION DE TUTELA RADICACION: 73001-40-09-012-2021-00222-00.  NOTIFICACION FALLO DE TUTELA ACCIONANTE: REINERIO GONZALEZ FERREIRA ACCIONADO: E.P.S-S MEDIMAS Y OTROS."))
+        model = pickle.load(open('Modelos/model_soles.pkl','rb'))
+    return int(model.predict(entrada)[0])

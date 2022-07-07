@@ -3,17 +3,41 @@ from configparser import ConfigParser
 import psycopg2
 import csv
 import Logica.transformadores as transformadores
+import Logica.modelos as modelos
 
 
 conexion = psycopg2.connect(
-    host= 'ec2-18-204-142-254.compute-1.amazonaws.com',
-    user= 'qfkvlglgixbnqp',
-    password= "5ddacab9748c3174f125b342bef9a2363a6cce60ac79c286a872d1c5f1108744",
-    database= "dd0ibbfpq96r39"
+    host= 'localhost', #'ec2-18-204-142-254.compute-1.amazonaws.com',
+    user=  'postgres',#'qfkvlglgixbnqp',
+    password= '1234',#"5ddacab9748c3174f125b342bef9a2363a6cce60ac79c286a872d1c5f1108744",
+    database= 'new' #"dd0ibbfpq96r39"
 )
 
 def cargaDatos(estructura):
-    try:    
+    entidad = estructura["glb_entidad_id"]
+    derechos = estructura["pqr_tipo_derechos_id"]
+    solicitudEsp = estructura["otros_tipo_solicitud_esp"]
+    solicitud = estructura["pqr_tipo_solicitud_id"]
+    asunto =  estructura["asunto"]
+    tipoCaracterizacion  = "Automatica"
+
+
+    if entidad == '':
+        entidad = modelos.procesoEntidad(asunto)
+        
+    if derechos == '':
+        derechos = modelos.procesoDerecho(asunto)
+        
+    if solicitudEsp == '':
+        solicitudEsp = modelos.procesoSoliEsp(asunto)
+        
+    if solicitud == '':
+        solicitud = modelos.procesoSoli(asunto)
+
+
+
+
+    try:
         with conexion.cursor() as cursor:
             sql="""INSERT INTO pqr_radicacions (glb_estado_id, glb_dependencia_id, pqr_derechos_id, ase_tipo_poblacion_id, 
                             ase_tipo_regimen_id, pqr_tipo_solicitud_id, pqr_tipo_solicitud_especifica_id, glb_barrio_vereda_id, 
@@ -21,17 +45,20 @@ def cargaDatos(estructura):
                             direccion, telefono_fijo, telefono_movil, email, ficha_sisben, clasificacion_sisben, no_radicacion, fecha_radicacion, 
                             fecha_vencimiento , no_respuesta, asunto, otros_tipo_solicitud_esp, amisalud_id, nombre_completo, fecha_nacimiento, 
                             latitud, longitud, estado_respuesta, estado_tiempo, glb_tipo_genero_id, glb_entidad_id, barrio, vereda, suelo, comuna, 
-                            fecha_respuesta) 
+                            fecha_respuesta, tipo_caracterizacion) 
                             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s,
-                             %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+                             %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""" 
+            
             for x in estructura:
                 if estructura[x]=='':
                     estructura[x]=None
 
+            if None not in [estructura.get('glb_entidad_id'),estructura.get('pqr_tipo_derechos_id'),estructura.get('otros_tipo_solicitud_esp'),estructura.get('pqr_tipo_solicitud_id')]:
+                tipoCaracterizacion = 'Manual'
 
-            cursor.execute(sql,(estructura.get("glb_estado_id"), estructura.get("glb_dependencia_id"), estructura.get("pqr_tipo_derechos_id"), 
-                                estructura.get("ase_tipo_poblacion_id"), estructura.get("ase_tipo_regimen_id"), estructura.get("pqr_tipo_solicitud_id"),
-                                estructura.get("pqr_tipo_solicitud_especifica_id"), estructura.get("glb_barrio_vereda_id"),
+            cursor.execute(sql,(estructura.get("glb_estado_id"), estructura.get("glb_dependencia_id"), derechos, 
+                                estructura.get("ase_tipo_poblacion_id"), estructura.get("ase_tipo_regimen_id"), solicitud,
+                                solicitudEsp, estructura.get("glb_barrio_vereda_id"),
                                 estructura.get("glb_tipo_identificacion_id"), estructura.get("identificacion"),estructura.get("primer_apellido"), 
                                 estructura.get("segundo_apellido"), estructura.get("primer_nombre"), estructura.get("segundo_nombre"), estructura.get("direccion"),
                                 estructura.get("telefono_fijo"), estructura.get("telefono_movil"), estructura.get("email"), estructura.get("ficha_sisben"), 
@@ -39,8 +66,8 @@ def cargaDatos(estructura):
                                 estructura.get("no_respuesta"), estructura.get("asunto"),estructura.get("otros_tipo_solicitud_esp"), estructura.get("amisalud_id"), 
                                 estructura.get("nombre_completo"), estructura.get("fecha_nacimiento"), estructura.get("Latitud"),estructura.get("Longitud"), 
                                 transformadores.estado_respuesta(estructura.get("glb_estado_id")), transformadores.estado_tiempo(estructura.get("fecha_vencimiento"),
-                                estructura.get("fecha_respuesta")),estructura.get("glb_tipo_genero_id"), estructura.get("glb_entidad_id"), 
-                                estructura.get("Barrio"), estructura.get("Vereda"), estructura.get("Suelo"), estructura.get("Comuna"), estructura.get("fecha_respuesta")))
+                                estructura.get("fecha_respuesta")),estructura.get("glb_tipo_genero_id"), entidad, 
+                                estructura.get("Barrio"), estructura.get("Vereda"), estructura.get("Suelo"), estructura.get("Comuna"), estructura.get("fecha_respuesta"), tipoCaracterizacion))
             affected_rows= cursor.rowcount
             conexion.commit()
         return affected_rows            
