@@ -50,8 +50,8 @@ def cargaMasiva():
         print(salida)
     
     if salida == len(estructuras):
-        os.remove('data/pqr_radicacions.json')
-        csvF = 'data/pqr_radicacions.csv'
+        #os.remove('data/pqr_radicacions.json')
+        #csvF = 'data/pqr_radicacions.csv'
         return "cargado con exito"
     else:
          return jsonify({"message": "Error en la carga"}), 500
@@ -68,7 +68,10 @@ def csv2Json(a,b):
         for rows in csvReader:
             id = rows['id']
             data[id] = rows
-
-    with open(JSONFilePath, 'w') as jsonFile:
-        jsonFile.write(json.dumps(data, indent=4))
-        return data
+    
+    print(len(data))
+    #with open(JSONFilePath, 'w') as jsonFile:
+     #   jsonFile.write(json.dumps(data, indent=4))
+    
+    
+    return data
