@@ -25,8 +25,14 @@ def estado_tiempo(fechaVen,fechaRes):
         return 'Fuera de tiempo'
         
 def estado_respuesta(estado):
-    if estado == 4 or estado == 5:
+    if estado == "4" or estado == "5":
         return 'Resuelto'
     else:
         return 'No Resuelto'       
+
+#def caracterizacion_tipo(lista_atrr):
+    #if None in lista_atrr:
+
+
     
+
