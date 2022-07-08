@@ -2,7 +2,7 @@ import pickle, re, warnings
 from sklearn import *
 
 stop = []
-file =open('stopwords.txt')
+file =open('data/stopwords.txt')
 for line in file:
     stripped_line = line.strip()
     stop.append(stripped_line)
