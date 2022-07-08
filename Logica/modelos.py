@@ -1,10 +1,17 @@
 import pickle, re, warnings
 from sklearn import *
-from nltk.corpus import stopwords
+
+stop = []
+
+file =open('stopwords.txt')
+for line in file:
+    stripped_line = line.strip()
+    stop.append(stripped_line)
+
 
 def procesaTextoGeneral(asunto):
     puntuación = r'[,;.:¡!¿?@#$%&[\](){}<>~=+\-*/|\\_^`"\']' 
-    stop = stopwords.words('spanish')
+    
     lista = ['?', '.', ',', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0','(', ')','-']
     for i in lista:
         stop.append(i)
