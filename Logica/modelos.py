@@ -1,4 +1,4 @@
-import pickle, re , nltk, warnings
+import pickle, re, warnings
 from sklearn import *
 from nltk.corpus import stopwords
 

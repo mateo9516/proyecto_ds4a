@@ -1,3 +1,2 @@
-corpus
-download
+stopwords
 corpora
