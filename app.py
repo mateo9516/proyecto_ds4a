@@ -47,7 +47,6 @@ def cargaMasiva():
     for estructura in estructuras:
         carga_descarga.cargaDatos(estructuras[estructura])
         salida += 1
-        print(salida)
     
     if salida == len(estructuras):
         #os.remove('data/pqr_radicacions.json')
