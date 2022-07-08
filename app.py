@@ -74,7 +74,7 @@ def csv2Json(a,b):
     
     return data
 
-@app.route("/api/frase/<texto>", methods=["Post"])
+@app.route("/api/frase/<texto>", methods=["POST"])
 
 def correr_frase(texto):
     respuesta = []
