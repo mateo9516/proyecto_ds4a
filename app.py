@@ -7,14 +7,7 @@ import Logica.modelos as modelos
 from Logica import carga_descarga
 
 app = Flask(__name__)
-
-@app.route("/api/frase/", methods=["POST"])
-def correr_frase():
-    frase= request.get_json()
-    respuesta=correr_frase(frase)
-    return jsonify(respuesta)  
-
-
+ 
 @app.route("/api/obtenerDf")
 
 def obtenerDf():
