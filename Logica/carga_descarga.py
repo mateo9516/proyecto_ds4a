@@ -176,3 +176,16 @@ def consulta(id):
         return pqrs     
     except Exception as ex:
         raise Exception(ex)
+
+
+def correr_frase(frase):
+    entidad = modelos.procesoEntidad(frase.get('frase'))
+    derechos = modelos.procesoDerecho(frase.get('frase'))
+    solicitudEsp = modelos.procesoSoliEsp(frase.get('frase'))
+    solicitud = modelos.procesoSoli(frase.get('frase'))
+    
+    return {"entidad":entidad,
+            "derechos":derechos,
+            "solicitudEsp":solicitudEsp,
+            "solicitud": solicitud
+            }
