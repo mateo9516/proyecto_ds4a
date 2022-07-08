@@ -2,9 +2,9 @@ from flask import Flask, jsonify, render_template, request, session, url_for
 from werkzeug.utils import redirect
 from werkzeug.exceptions import abort
 import json, csv, os
+import Logica.modelos as modelos
 
 from Logica import carga_descarga
-
 
 app = Flask(__name__)
 
@@ -24,7 +24,7 @@ def consultaid(id):
 @app.route("/api/add/", methods= ["POST"])
 
 def cargaDatos():
-    
+
     estructura= request.get_json()
 
     respuesta = carga_descarga.cargaDatos(estructura)
@@ -35,7 +35,6 @@ def cargaDatos():
 
 
 @app.route("/api/cargaMasiva", methods=["POST"])
-
 def cargaMasiva():
     csvF = 'data/pqr_radicacions.csv'
     jsonf = 'data/pqr_radicacions.json'
@@ -74,3 +73,14 @@ def csv2Json(a,b):
     
     
     return data
+
+@app.route("/api/frase/<texto>", methods=["Post"])
+
+def correr_frase(texto):
+    respuesta = []
+    respuesta.append(modelos.procesoEntidad(texto))
+    respuesta.append(modelos.procesoDerecho(texto))
+    respuesta.append(modelos.procesoSoli(texto))
+    respuesta.append(modelos.procesoSoliEsp(texto))
+
+    return respuesta
