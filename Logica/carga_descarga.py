@@ -7,35 +7,33 @@ import Logica.modelos as modelos
 
 
 conexion = psycopg2.connect(
-    host= 'localhost', #'ec2-18-204-142-254.compute-1.amazonaws.com',
-    user=  'postgres',#'qfkvlglgixbnqp',
-    password= '1234',#"5ddacab9748c3174f125b342bef9a2363a6cce60ac79c286a872d1c5f1108744",
-    database= 'new' #"dd0ibbfpq96r39"
+    host= 'ec2-18-204-142-254.compute-1.amazonaws.com',
+    user=  'qfkvlglgixbnqp',
+    password= "5ddacab9748c3174f125b342bef9a2363a6cce60ac79c286a872d1c5f1108744",
+    database= "dd0ibbfpq96r39"
 )
 
 def cargaDatos(estructura):
-    entidad = estructura["glb_entidad_id"]
-    derechos = estructura["pqr_tipo_derechos_id"]
-    solicitudEsp = estructura["otros_tipo_solicitud_esp"]
-    solicitud = estructura["pqr_tipo_solicitud_id"]
-    asunto =  estructura["asunto"]
-    tipoCaracterizacion  = "Automatica"
+    entidad = estructura.get("glb_entidad_id")
+    derechos = estructura.get("pqr_tipo_derechos_id")
+    solicitudEsp = estructura.get("pqr_tipo_solicitud_especifica_id")
+    solicitud = estructura.get("pqr_tipo_solicitud_id")
+    asunto =  estructura.get("asunto")
+    tipoCaracterizacion  = "manual"
 
 
     if entidad == '':
+        tipoCaracterizacion = "automatica"
         entidad = modelos.procesoEntidad(asunto)
-        
     if derechos == '':
+        tipoCaracterizacion = "automatica"
         derechos = modelos.procesoDerecho(asunto)
-        
     if solicitudEsp == '':
+        tipoCaracterizacion = "automatica"
         solicitudEsp = modelos.procesoSoliEsp(asunto)
-        
     if solicitud == '':
+        tipoCaracterizacion = "automatica"
         solicitud = modelos.procesoSoli(asunto)
-
-
-
 
     try:
         with conexion.cursor() as cursor:
@@ -52,9 +50,6 @@ def cargaDatos(estructura):
             for x in estructura:
                 if estructura[x]=='':
                     estructura[x]=None
-
-            if None not in [estructura.get('glb_entidad_id'),estructura.get('pqr_tipo_derechos_id'),estructura.get('otros_tipo_solicitud_esp'),estructura.get('pqr_tipo_solicitud_id')]:
-                tipoCaracterizacion = 'Manual'
 
             cursor.execute(sql,(estructura.get("glb_estado_id"), estructura.get("glb_dependencia_id"), derechos, 
                                 estructura.get("ase_tipo_poblacion_id"), estructura.get("ase_tipo_regimen_id"), solicitud,
@@ -77,13 +72,9 @@ def cargaDatos(estructura):
 def descargaDatos():
     pqrs = []
     cur = conexion.cursor()
-    exito = 0
     cur.execute('SELECT * FROM pqr_radicacions;')
     pqrs_raw = cur.fetchall()
     for pqr in pqrs_raw:
-        if exito == 0:
-            print(pqr[0],pqr[1])
-            exito = 1
         result = {
             'id': pqr[0], 
             'glb_estado_id':pqr[1], 
