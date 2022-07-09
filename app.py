@@ -2,7 +2,7 @@ from flask import Flask, jsonify, render_template, request, session, url_for
 from werkzeug.utils import redirect
 from werkzeug.exceptions import abort
 import json, csv, os
-import Logica.modelos as modelos
+from Logica import modelos
 
 from Logica import carga_descarga
 
