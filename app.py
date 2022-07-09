@@ -78,13 +78,16 @@ def csv2Json(a,b):
     
     return data
 
-@app.route("/api/frase/<texto>", methods=["POST"])
+@app.route("/api/frase/", methods=["POST"])
 
-def correr_frase(texto):
+def correr_frase():
+
+    texto = request.get_json()
+
     respuesta = []
-    respuesta.append(modelos.procesoEntidad(texto))
-    respuesta.append(modelos.procesoDerecho(texto))
-    respuesta.append(modelos.procesoSoli(texto))
-    respuesta.append(modelos.procesoSoliEsp(texto))
+    respuesta.append(modelos.procesoEntidad(texto.get('1')))
+    respuesta.append(modelos.procesoDerecho(texto.get('1')))
+    respuesta.append(modelos.procesoSoli(texto.get('1')))
+    respuesta.append(modelos.procesoSoliEsp(texto.get('1')))
 
-    return respuesta
+    return  '{} {} {} {}'.format(respuesta[0], respuesta[1], respuesta[2],respuesta[3])
